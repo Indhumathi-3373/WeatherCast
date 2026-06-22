@@ -3,7 +3,20 @@ import '../styles/searchcity.css'
 import { useState } from 'react';
 
 function Searchcity() {
-  const [city,setCity]=useState(null)
+  const [city,setCity]=useState("")
+  const today=new Date();
+  const day=today.toLocaleDateString('en-US',{
+    weekday:'long'
+  });
+  const date=today.toLocaleDateString('en-GB',{
+    day:'numeric',
+    month:'long',
+    year:'numeric'
+  });
+  const time=today.toLocaleTimeString('en-US',{
+    hour:'2-digit',
+    minute:'2-digit'
+  })
   return (
  <>
     <Navbar/>
@@ -20,8 +33,8 @@ function Searchcity() {
       </div>
 
       <div className="city-info">
-        <h1>London, United Kingdom</h1>
-        <p>Monday, 20 May 2024 • 14:30 PM</p>
+        <h1>{city}</h1>
+        <p>{day}, {date} • {time}</p>
       </div>
 
       <div className="main-card">
