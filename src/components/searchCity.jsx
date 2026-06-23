@@ -3,21 +3,64 @@ import "../styles/searchcity.css";
 import { useState } from "react";
 
 function Searchcity() {
+  const [weather, setWeather] = useState(null);
+
   const [city, setCity] = useState("");
+
   const today = new Date();
+
   const day = today.toLocaleDateString("en-US", {
     weekday: "long",
   });
+
   const date = today.toLocaleDateString("en-GB", {
     day: "numeric",
     month: "long",
     year: "numeric",
   });
+
   const time = today.toLocaleTimeString("en-US", {
     hour: "2-digit",
     minute: "2-digit",
   });
+
   const [onclick, setclick] = useState(false);
+
+  const fetchWeather = async () => {
+    try {
+      const appid = import.meta.env.VITE_WEATHER_API;
+      const response = await fetch(
+      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${appid}&units=metric`
+      );
+
+      const data = await response.json();
+
+      setWeather(data);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const windSpeedKmh = weather?.wind?.speed ? (weather.wind.speed * 3.6).toFixed(1): null;
+
+  const humidity = weather?.main?.humidity;
+
+  const temp = weather?.main?.temp;
+
+
+const visibilityMeters = weather?.visibility;
+
+let visibilityLevel = "--";
+
+if (visibilityMeters !== undefined) {
+  if (visibilityMeters < 2000) {
+    visibilityLevel = "Low";
+  } else if (visibilityMeters < 5000) {
+    visibilityLevel = "Moderate";
+  } else {
+    visibilityLevel = "High";
+  }
+}
   return (
     <>
       <Navbar />
@@ -33,15 +76,21 @@ function Searchcity() {
           />
           <button
             className="search-btn"
-            onClick={() =>
-              city.trim() !== "" ? setclick(true) : alert("Please Enter a city")
-            }
+            onClick={() => {
+              if (city.trim() !== "") {
+                setclick(true);
+                fetchWeather();
+              } else {
+                alert("Please Enter a city");
+              }
+            }}
           >
             Search
           </button>
         </div>
-        {onclick && (
+        {onclick ? (
           <div>
+           
             <div className="city-info">
               <h1>{city}</h1>
               <p>
@@ -54,7 +103,7 @@ function Searchcity() {
                 <div className="weather-icon">⛅</div>
 
                 <div>
-                  <h2>22°C</h2>
+                  <h2>{temp ?? "--"}°C</h2>
                   <p>Partly Cloudy</p>
                 </div>
               </div>
@@ -70,17 +119,17 @@ function Searchcity() {
             <div className="stats-grid">
               <div className="stat-card">
                 <h4>Humidity</h4>
-                <p>65%</p>
+                <p>{humidity}%</p>
               </div>
 
               <div className="stat-card">
                 <h4>Wind</h4>
-                <p>12 km/h</p>
+                <p>{windSpeedKmh}</p>
               </div>
 
               <div className="stat-card">
                 <h4>Visibility</h4>
-                <p>10 km</p>
+                <p>{visibilityLevel}</p>
               </div>
 
               <div className="stat-card">
@@ -137,13 +186,15 @@ function Searchcity() {
                 <div className="progress"></div>
               </div>
             </div>
-             <div>
-          <button className="location-btn">Use Current Location</button>
-        </div>
+            <div>
+              <button className="location-btn">Use Current Location</button>
+            </div>
           </div>
-         
+        ) : (
+          <div>
+            <button className="location-btn">Use Current Location</button>
+          </div>
         )}
-        
       </main>
     </>
   );
