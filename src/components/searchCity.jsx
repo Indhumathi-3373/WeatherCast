@@ -1,13 +1,40 @@
 import Navbar from "./navbar";
 import "../styles/searchcity.css";
 import { useState } from "react";
-import image from '../assets/Screenshot 2026-06-24 100745.png'
+import image from "../assets/Screenshot 2026-06-24 100745.png";
 
 function Searchcity() {
   const [weather, setWeather] = useState(null);
-
+  const [loading, setLoading] = useState(false);
   const [city, setCity] = useState("");
 
+  const getlocation = () => {
+    setLoading(true);
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`,
+        );
+
+        const data = await response.json();
+
+        const currentCity =
+          data.address.city || data.address.town || data.address.village;
+
+        console.log("Current City:", currentCity);
+
+        setCity(currentCity);
+
+        await fetchWeather(currentCity);
+      },
+      (error) => {
+        console.log(error.message);
+      },
+    );
+  };
   const today = new Date();
 
   const day = today.toLocaleDateString("en-US", {
@@ -27,41 +54,45 @@ function Searchcity() {
 
   const [onclick, setclick] = useState(false);
 
-  const fetchWeather = async () => {
+  const fetchWeather = async (cityName) => {
     try {
       const appid = import.meta.env.VITE_WEATHER_API;
+
       const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${appid}&units=metric`
+        `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${appid}&units=metric`,
       );
 
       const data = await response.json();
 
       setWeather(data);
+      setclick(true);
+
       console.log(data);
     } catch (error) {
       console.log(error);
     }
   };
-  const windSpeedKmh = weather?.wind?.speed ? (weather.wind.speed * 3.6).toFixed(1): null;
+  const windSpeedKmh = weather?.wind?.speed
+    ? (weather.wind.speed * 3.6).toFixed(1)
+    : null;
 
   const humidity = weather?.main?.humidity;
 
   const temp = weather?.main?.temp;
 
+  const visibilityMeters = weather?.visibility;
 
-const visibilityMeters = weather?.visibility;
+  let visibilityLevel = "--";
 
-let visibilityLevel = "--";
-
-if (visibilityMeters !== undefined) {
-  if (visibilityMeters < 2000) {
-    visibilityLevel = "Low";
-  } else if (visibilityMeters < 5000) {
-    visibilityLevel = "Moderate";
-  } else {
-    visibilityLevel = "High";
+  if (visibilityMeters !== undefined) {
+    if (visibilityMeters < 2000) {
+      visibilityLevel = "Low";
+    } else if (visibilityMeters < 5000) {
+      visibilityLevel = "Moderate";
+    } else {
+      visibilityLevel = "High";
+    }
   }
-}
   return (
     <>
       <Navbar />
@@ -91,7 +122,6 @@ if (visibilityMeters !== undefined) {
         </div>
         {onclick ? (
           <div>
-           
             <div className="city-info">
               <h1>{city}</h1>
               <p>
@@ -194,11 +224,14 @@ if (visibilityMeters !== undefined) {
         ) : (
           <div className="current-location">
             <div className="image3">
-              <img src={image}alt="image"/>
+              <img src={image} alt="image" />
             </div>
-           <div className="btn-holder"><button className="location-btn" onClick={currentLoaction}>Use Current Location</button></div>
+            <div className="btn-holder">
+              <button className="location-btn" onClick={getlocation}>
+                {loading ? "Loading..." : "Use Current Location"}
+              </button>
+            </div>
           </div>
-          
         )}
       </main>
     </>
