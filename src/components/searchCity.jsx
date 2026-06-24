@@ -1,6 +1,7 @@
 import Navbar from "./navbar";
 import "../styles/searchcity.css";
 import { useState } from "react";
+import image from '../assets/Screenshot 2026-06-24 100745.png'
 
 function Searchcity() {
   const [weather, setWeather] = useState(null);
@@ -191,9 +192,13 @@ if (visibilityMeters !== undefined) {
             </div>
           </div>
         ) : (
-          <div>
-            <button className="location-btn">Use Current Location</button>
+          <div className="current-location">
+            <div className="image3">
+              <img src={image}alt="image"/>
+            </div>
+           <div className="btn-holder"><button className="location-btn" onClick={currentLoaction}>Use Current Location</button></div>
           </div>
+          
         )}
       </main>
     </>

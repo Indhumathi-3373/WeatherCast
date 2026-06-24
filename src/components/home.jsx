@@ -4,23 +4,24 @@ import "../styles/home.css";
 import Endnav from "./footer";
 import Searchcity from "./searchCity";
 import { Navigate, useNavigate } from "react-router-dom";
+import {Search,CloudSun,MonitorSmartphone} from 'lucide-react'
 
 export default function Home() {
   const grid = [
     {
-      icon: "😁",
+      icon: <CloudSun color="blue"size={30}/>,
       heading: "Live Weather Updates",
       content:
         "Real-time data at your fingertips, ensuring you're never caught off guard by changing conditions.",
     },
     {
-      icon: "😂",
+      icon:<Search color="blue" size={30}/>,
       heading: "Fast City Search",
       content:
         "Find any location instantly with our high-speed global database of thousands of cities.",
     },
     {
-      icon: "📌",
+      icon:<MonitorSmartphone color="blue" size={30}/> ,
       heading: "Responsiv Design",
       content:
         "Works perfectly on mobile, tablet and desktop, giving you weather clarity on any screen.",
