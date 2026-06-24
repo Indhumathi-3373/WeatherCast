@@ -5,13 +5,19 @@ import image from "../assets/Screenshot 2026-06-24 100745.png";
 
 function Searchcity() {
   const [weather, setWeather] = useState(null);
+
   const [loading, setLoading] = useState(false);
+
   const [city, setCity] = useState("");
 
   const getlocation = () => {
+
     setLoading(true);
+
     navigator.geolocation.getCurrentPosition(
+
       async (position) => {
+
         const lat = position.coords.latitude;
         const lon = position.coords.longitude;
 
@@ -21,10 +27,7 @@ function Searchcity() {
 
         const data = await response.json();
 
-        const currentCity =
-          data.address.city || data.address.town || data.address.village;
-
-        console.log("Current City:", currentCity);
+        const currentCity = data.address.city || data.address.town || data.address.village;
 
         setCity(currentCity);
 
@@ -63,7 +66,6 @@ function Searchcity() {
       );
 
       const data = await response.json();
-
       setWeather(data);
       setclick(true);
 
@@ -111,7 +113,7 @@ function Searchcity() {
             onClick={() => {
               if (city.trim() !== "") {
                 setclick(true);
-                fetchWeather();
+                fetchWeather(city);
               } else {
                 alert("Please Enter a city");
               }
@@ -216,9 +218,6 @@ function Searchcity() {
               <div className="progress-bar">
                 <div className="progress"></div>
               </div>
-            </div>
-            <div>
-              <button className="location-btn">Use Current Location</button>
             </div>
           </div>
         ) : (
