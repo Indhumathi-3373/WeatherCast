@@ -11,13 +11,10 @@ function Searchcity() {
   const [city, setCity] = useState("");
 
   const getlocation = () => {
-
     setLoading(true);
 
     navigator.geolocation.getCurrentPosition(
-
       async (position) => {
-
         const lat = position.coords.latitude;
         const lon = position.coords.longitude;
 
@@ -27,8 +24,18 @@ function Searchcity() {
 
         const data = await response.json();
 
-        const currentCity = data.address.city || data.address.town || data.address.village;
-
+        const currentCity =
+          data.address.city ||
+          data.address.town ||
+          data.address.village ||
+          data.address.county ||
+          data.address.state_district ||
+          data.address.state;
+        if (!currentCity) {
+          alert("Could not detect your city");
+          setLoading(false);
+          return;
+        }
         setCity(currentCity);
 
         await fetchWeather(currentCity);
