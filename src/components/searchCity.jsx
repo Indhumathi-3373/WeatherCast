@@ -11,23 +11,56 @@ function Searchcity() {
 
   const [city, setCity] = useState("");
 
-  const location=useLocation("");
+  const fiveday = [
+    { day: "Monday", condition: "🌧 rainy", temp:"12° / 16°" },
+    {
+      day: "Tuesday",
+      condition: "⛅ Cloudy",
+      temp: "20° / 15°",
+    },
+    {
+      day: "Wednesday",
+      condition: "☀ Sunny",
+      temp: "24° / 16°",
+    },
+    {
+      day: "Thursday",
+      condition: "🌧 Showers",
+      temp: "18° / 14°",
+    },
+    {
+      day: "Friday",
+      condition: "⛅ Partly Cloudy",
+      temp: "21° / 15",
+    },
+    {
+      day: "saturday",
+      condition: "☀  Sunny",
+      temp: "24° / 16°",
+    },
+    {
+      day: "sunday",
+      condition: "⛅  Cloudy",
+      temp: "25° / 17°",
+    },
+  ];
 
-  const handlesearch =() => {
-              if (city.trim() !== "") {
-                const regex = /^[a-zA-Z\s'-]+$/;
-                if (!regex.test(city)) {
-                  alert("please enter valid city Name");
-                  return;
-                }
-                setclick(true);
+  const location = useLocation("");
 
-                fetchWeather(city);
-              } else {
-                alert("Please Enter a city");
-              }
-              
-            }
+  const handlesearch = () => {
+    if (city.trim() !== "") {
+      const regex = /^[a-zA-Z\s'-]+$/;
+      if (!regex.test(city)) {
+        alert("please enter valid city Name");
+        return;
+      }
+      setclick(true);
+
+      fetchWeather(city);
+    } else {
+      alert("Please Enter a city");
+    }
+  };
 
   const getlocation = () => {
     setLoading(true);
@@ -40,9 +73,9 @@ function Searchcity() {
         const response = await fetch(
           `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`,
         );
-       if(!response.ok){
-        alert("City not found");
-       }
+        if (!response.ok) {
+          alert("City not found");
+        }
         const data = await response.json();
 
         const currentCity =
@@ -72,6 +105,10 @@ function Searchcity() {
     weekday: "long",
   });
 
+  const currentday = fiveday.findIndex(
+    (item) => item.day.toLowerCase() === day.toLowerCase(),
+  );
+
   const date = today.toLocaleDateString("en-GB", {
     day: "numeric",
     month: "long",
@@ -92,9 +129,9 @@ function Searchcity() {
       const response = await fetch(
         `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${appid}&units=metric`,
       );
-      if(!response.ok){
+      if (!response.ok) {
         alert("City not found");
-       }
+      }
       const data = await response.json();
       if (!data) {
         alert("Network issue please try later");
@@ -142,10 +179,7 @@ function Searchcity() {
             onChange={(e) => setCity(e.target.value)}
             className="search-input"
           />
-          <button
-            className="search-btn"
-            onClick={handlesearch}
-          >
+          <button className="search-btn" onClick={handlesearch}>
             {onclick ? "Search Another City" : "Search"}
           </button>
         </div>
@@ -202,36 +236,17 @@ function Searchcity() {
               <div className="forecast-header">
                 <h2>5-Day Forecast</h2>
               </div>
+              {Array.from({ length: 5 }, (_, i) => {
+                const item = fiveday[(currentday + i + 1) % 7];
 
-              <div className="forecast-row">
-                <span>Tomorrow</span>
-                <span>☁ Cloudy</span>
-                <span>20° / 15°</span>
-              </div>
-
-              <div className="forecast-row">
-                <span>Wednesday</span>
-                <span>☀ Sunny</span>
-                <span>24° / 16°</span>
-              </div>
-
-              <div className="forecast-row">
-                <span>Thursday</span>
-                <span>🌧 Showers</span>
-                <span>18° / 14°</span>
-              </div>
-
-              <div className="forecast-row">
-                <span>Friday</span>
-                <span>⛅ Partly Cloudy</span>
-                <span>21° / 15°</span>
-              </div>
-
-              <div className="forecast-row">
-                <span>Saturday</span>
-                <span>☀ Sunny</span>
-                <span>25° / 17°</span>
-              </div>
+                return (
+                  <div className="forecast-row" key={i}>
+                    <span>{item.day}</span>
+                    <span>{item.condition}</span>
+                    <span>{item.temp}</span>
+                  </div>
+                );
+              })}
             </div>
 
             <div className="rain-card">
