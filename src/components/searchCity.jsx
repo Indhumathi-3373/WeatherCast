@@ -2,6 +2,7 @@ import Navbar from "./navbar";
 import "../styles/searchcity.css";
 import { useState } from "react";
 import image from "../assets/Screenshot 2026-06-24 100745.png";
+import { useLocation } from "react-router-dom";
 
 function Searchcity() {
   const [weather, setWeather] = useState(null);
@@ -9,6 +10,24 @@ function Searchcity() {
   const [loading, setLoading] = useState(false);
 
   const [city, setCity] = useState("");
+
+  const location=useLocation("");
+
+  const handlesearch =() => {
+              if (city.trim() !== "") {
+                const regex = /^[a-zA-Z\s'-]+$/;
+                if (!regex.test(city)) {
+                  alert("please enter valid city Name");
+                  return;
+                }
+                setclick(true);
+
+                fetchWeather(city);
+              } else {
+                alert("Please Enter a city");
+              }
+              
+            }
 
   const getlocation = () => {
     setLoading(true);
@@ -21,7 +40,9 @@ function Searchcity() {
         const response = await fetch(
           `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`,
         );
-
+       if(!response.ok){
+        alert("City not found");
+       }
         const data = await response.json();
 
         const currentCity =
@@ -71,10 +92,16 @@ function Searchcity() {
       const response = await fetch(
         `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${appid}&units=metric`,
       );
-
+      if(!response.ok){
+        alert("City not found");
+       }
       const data = await response.json();
-      setWeather(data);
-      setclick(true);
+      if (!data) {
+        alert("Network issue please try later");
+      } else {
+        setWeather(data);
+        setclick(true);
+      }
 
       console.log(data);
     } catch (error) {
@@ -117,16 +144,9 @@ function Searchcity() {
           />
           <button
             className="search-btn"
-            onClick={() => {
-              if (city.trim() !== "") {
-                setclick(true);
-                fetchWeather(city);
-              } else {
-                alert("Please Enter a city");
-              }
-            }}
+            onClick={handlesearch}
           >
-            Search
+            {onclick ? "Search Another City" : "Search"}
           </button>
         </div>
         {onclick ? (

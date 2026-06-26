@@ -4,24 +4,29 @@ import "../styles/home.css";
 import Endnav from "./footer";
 import Searchcity from "./searchCity";
 import { Navigate, useNavigate } from "react-router-dom";
-import {Search,CloudSun,MonitorSmartphone} from 'lucide-react'
+import { Search, CloudSun, MonitorSmartphone } from "lucide-react";
+import { useState } from "react";
 
 export default function Home() {
+  const [name, setname] = useState("");
+  const [email, setemail] = useState("");
+  const [feedback, setfeedback] = useState("");
+
   const grid = [
     {
-      icon: <CloudSun color="blue"size={30}/>,
+      icon: <CloudSun color="blue" size={30} />,
       heading: "Live Weather Updates",
       content:
         "Real-time data at your fingertips, ensuring you're never caught off guard by changing conditions.",
     },
     {
-      icon:<Search color="blue" size={30}/>,
+      icon: <Search color="blue" size={30} />,
       heading: "Fast City Search",
       content:
         "Find any location instantly with our high-speed global database of thousands of cities.",
     },
     {
-      icon:<MonitorSmartphone color="blue" size={30}/> ,
+      icon: <MonitorSmartphone color="blue" size={30} />,
       heading: "Responsiv Design",
       content:
         "Works perfectly on mobile, tablet and desktop, giving you weather clarity on any screen.",
@@ -78,13 +83,50 @@ export default function Home() {
         </div>
 
         <div className="contact-right">
-          <input type="text" placeholder="Your Name" />
-          <input type="email" placeholder="Your Email" />
-          <textarea placeholder="Your Feedback"></textarea>
-          <button>Send Message</button>
+          <input
+            type="text"
+            placeholder="Your Name"
+            value={name}
+            onChange={(e) => {
+              setname(e.target.value);
+            }}
+          />
+          <input
+            type="email"
+            placeholder="Your Email"
+            value={email}
+            onChange={(e) => {
+              setemail(e.target.value);
+            }}
+          />
+          <textarea
+            placeholder="Your Feedback"
+            value={feedback}
+            onChange={(e) => {
+              setfeedback(e.target.value);
+            }}
+          ></textarea>
+          <button
+            onClick={(e) => {
+              if (
+                name.trim() !== "" &&
+                email.trim() !== "" &&
+                feedback.trim() !== ""
+              ) {
+                alert("Thanks for your valuable feedback");
+                sendmail();
+              } else {
+                alert("Fill all fields");
+                setname(" ")
+                setfeedback(" ")
+                setemail("")
+              }
+            }}
+          >
+            Send Message
+          </button>
         </div>
       </div>
-
       <Endnav />
     </>
   );
