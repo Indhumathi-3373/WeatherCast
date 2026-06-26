@@ -6,11 +6,37 @@ import Searchcity from "./searchCity";
 import { Navigate, useNavigate } from "react-router-dom";
 import { Search, CloudSun, MonitorSmartphone } from "lucide-react";
 import { useState } from "react";
+import axios from 'axios'
 
 export default function Home() {
   const [name, setname] = useState("");
   const [email, setemail] = useState("");
   const [feedback, setfeedback] = useState("");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (name.trim() === "" || email.trim() === "" || feedback.trim() === "") {
+      alert("Fill all fields");
+      return;
+    }
+
+    try {
+      const response = await axios.post("http://localhost:5173/", {
+        name,
+        email,
+        feedback,
+      });
+
+      alert(response.data.message);
+
+      setName("");
+      setEmail("");
+      setFeedback("");
+    } catch (error) {
+      console.log(error);
+      alert("Failed to send feedback");
+    }
+  };
 
   const grid = [
     {
@@ -106,25 +132,7 @@ export default function Home() {
               setfeedback(e.target.value);
             }}
           ></textarea>
-          <button
-            onClick={(e) => {
-              if (
-                name.trim() !== "" &&
-                email.trim() !== "" &&
-                feedback.trim() !== ""
-              ) {
-                alert("Thanks for your valuable feedback");
-                sendmail();
-              } else {
-                alert("Fill all fields");
-                setname(" ")
-                setfeedback(" ")
-                setemail("")
-              }
-            }}
-          >
-            Send Message
-          </button>
+          <button onClick={handleSubmit}>Send Message</button>
         </div>
       </div>
       <Endnav />
