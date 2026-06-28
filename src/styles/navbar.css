@@ -1,8 +1,8 @@
-*{
-    margin:0;
-    padding:0;
+* {
+    margin: 0;
+    padding: 0;
 }
-.navbar{
+.navbar {
     display: flex;
     flex-direction: row;
     background-color: white;
@@ -10,75 +10,178 @@
     box-shadow: 0px 1px 4px rgb(208, 208, 208);
     align-items: center;
     justify-content: space-between;
-    color:#424754;
+    color: #424754;
     position: fixed;
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
 }
-.brand{
-flex:1;
-color: #0563ce;
-margin-left:4.5%;
+.brand {
+    flex: 1;
+    color: #0563ce;
+    margin-left: 4.5%;
 }
-.center{
-    flex:1.3;
+.center {
+    flex: 1.3;
 }
-.ul{
+.ul {
     list-style: none;
-    gap:30px;
+    gap: 30px;
     display: flex;
 }
-.corner{   
-  margin-right: 5%;
-} 
-.ull{
-     list-style: none;
-     color: white;
-     background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
-     border-color:currentColor;
-     padding: 10px;
-     border-radius: 10px;
-     font-size: medium;
-     transition: all 0.3s ease;
+.corner {
+    margin-right: 5%;
 }
-.ull a{
+.ull {
+    list-style: none;
+    color: white;
+    background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+    border-color: currentColor;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: medium;
+    transition: all 0.3s ease;
+}
+.ull a {
     color: white;
     text-decoration: none;
-    transition: all 0.3 ease;
+    transition: all 0.3s ease;
 }
-.ull:hover{
+.ull:hover {
     box-shadow: 0px 4px 20px rgb(174, 198, 250);
-    transform:scale(1.02);
+    transform: scale(1.02);
 }
-.center .ul a 
-{
+.center .ul a {
     position: relative;
     text-decoration: none;
-    color:inherit;
-    font-size:larger;
+    color: inherit;
+    font-size: larger;
 }
-.center a:hover{
-    color:blue;
+.center a:hover {
+    color: blue;
 }
-.center a::after{
+.center a::after {
     content: '';
-    position:absolute;
+    position: absolute;
     width: 100%;
     height: 2px;
-    bottom:-7px;
-    left:0;
+    bottom: -7px;
+    left: 0;
     background-color: mediumblue;
     transform-origin: left;
     transition: transform 0.25s ease;
-    transform:scale(0);
+    transform: scale(0);
+}
+.center a:hover::after {
+    transform: scale(1);
+}
+.active {
+    border-bottom: 2px solid #2563eb;
 }
 
-.center a:hover::after{
-    transform:scale(1);
-} 
-.active{
-border-bottom: 2px solid #2563eb;
+/* ===========================
+   Hamburger button (hidden on desktop)
+=========================== */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: 1.5px solid #d0d0d0;
+    border-radius: 8px;
+    padding: 7px 10px;
+    cursor: pointer;
+    color: #424754;
+    font-size: 22px;
+    line-height: 1;
+    margin-right: 2%;
+}
+
+/* ===========================
+   Tablet (768px and below)
+=========================== */
+@media (max-width: 768px) {
+
+    .menu-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .center,
+    .corner {
+        display: none;
+        width: 100%;
+    }
+
+    .center.open,
+    .corner.open {
+        display: block;
+    }
+
+    .navbar {
+        padding: 15px;
+        flex-wrap: wrap;
+    }
+
+    .brand {
+        margin-left: 2%;
+        flex: 1;
+    }
+
+    .center {
+        margin-top: 10px;
+    }
+
+    .center .ul {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        padding: 4px 0;
+    }
+
+    .center .ul li {
+        width: 100%;
+        border-bottom: 1px solid #f0f0f0;
+        padding: 12px 8px;
+    }
+
+    .center .ul li:last-child {
+        border-bottom: none;
+    }
+
+    .corner {
+        margin-right: 0;
+        padding: 8px 8px 4px;
+    }
+
+    .ull {
+        display: block;
+        text-align: center;
+    }
+}
+
+/* ===========================
+   Mobile (480px and below)
+=========================== */
+@media (max-width: 480px) {
+
+    .navbar {
+        padding: 12px 15px;
+    }
+
+    .brand {
+        margin-left: 0;
+    }
+
+    .brand h1 {
+        font-size: 1.3rem;
+    }
+
+    .center .ul a {
+        font-size: 1rem;
+    }
+
+    .ull {
+        width: 100%;
+    }
 }
