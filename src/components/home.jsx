@@ -33,6 +33,7 @@ export default function Home() {
       setname("");
       setemail("");
       setfeedback("");
+       { timeout: 10000 }
     } catch (error) {
       console.log(error);
       alert("Failed to send feedback");
