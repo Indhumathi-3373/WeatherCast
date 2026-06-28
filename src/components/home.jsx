@@ -22,14 +22,14 @@ export default function Home() {
     }
 
     try {
-      const response = await axios.post("https://weathercast-1g3v.onrender.com", {
+      const response = await axios.post("https://weathercast-1g3v.onrender.com/", {
         name,
         email,
         feedback,
       });
 
       alert(response.data.message);
-
+      
       setname("");
       setemail("");
       setfeedback("");

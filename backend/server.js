@@ -12,16 +12,18 @@ console.log("EMAIL:", process.env.EMAIL);
 console.log("PASS exists:", !!process.env.PASS);
 
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+   host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
   auth: {
     user: process.env.EMAIL,
     pass: process.env.PASS, 
   },
 });
 
-
+ 
 app.post("/", async (req, res) => {
-  const { name, email, feedback } = req.body;
+  const { name, email, feedback } = req.body || {};
 console.log(name, email, feedback); 
   if (!name || !email || !feedback) {
     return res.status(400).json({
