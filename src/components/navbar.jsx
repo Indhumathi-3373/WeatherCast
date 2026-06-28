@@ -3,8 +3,10 @@ import "../styles/navbar.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 export default function Navbar() {
-  const [signup, setSignup] = useState(false);
+  const show = location.pathname === '/';
+
  const navigate = useNavigate();
+
   const gotohome=()=>{
     navigate('/')
     setTimeout(()=>{
@@ -13,6 +15,7 @@ export default function Navbar() {
                   });
     },100)
   }
+
   const gotofeature = () => {
     navigate("/");
     setTimeout(() => {
@@ -21,6 +24,7 @@ export default function Navbar() {
       });
     }, 100);
   };
+
   const gotocontact=()=>{
     navigate('/');
     setTimeout(()=>{
@@ -52,15 +56,15 @@ export default function Navbar() {
             </li>
           </ul>
         </nav>
-        <nav className="corner">
+        {show && <nav className="corner">
           <ul className="ull">
             <li className="signup">
-              <Link to='/SignUp'>
-                SignUp
+              <Link to='/Searchcity'>
+                Search City
               </Link>
             </li>
           </ul>
-        </nav>
+        </nav>}
       </header>
     </>
   );

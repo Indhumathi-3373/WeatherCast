@@ -12,6 +12,7 @@ export default function Home() {
   const [name, setname] = useState("");
   const [email, setemail] = useState("");
   const [feedback, setfeedback] = useState("");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -21,7 +22,7 @@ export default function Home() {
     }
 
     try {
-      const response = await axios.post("http://localhost:5173/", {
+      const response = await axios.post("http://localhost:5000/", {
         name,
         email,
         feedback,
@@ -29,9 +30,9 @@ export default function Home() {
 
       alert(response.data.message);
 
-      setName("");
-      setEmail("");
-      setFeedback("");
+      setname("");
+      setemail("");
+      setfeedback("");
     } catch (error) {
       console.log(error);
       alert("Failed to send feedback");
@@ -79,7 +80,7 @@ export default function Home() {
               className="search-btn"
               onClick={() => Navigate("/Searchcity")}
             >
-              Search Your City
+              Get Started →
             </button>
             <button className="learn-more">Learn More</button>
           </div>
