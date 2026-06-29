@@ -24,7 +24,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 app.post("/", async (req, res) => {
   try {
     const { name, email, feedback } = req.body || {};
-    
+
     console.log("Received:", { name, email, feedback });
 
     if (!name || !email || !feedback) {
@@ -37,7 +37,7 @@ app.post("/", async (req, res) => {
     const sendingmail = await resend.emails.send({
       from: "WeatherCast <onboarding@resend.dev>",
       to: process.env.EMAIL,
-      replyTo: email,
+
       subject: `New feedback received from ${name}`,
       html: `
     <h2>Feedback Form</h2>
