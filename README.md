@@ -24,14 +24,19 @@ Backend
 
 Node.js
 Express.js
-Resend API (Email Service)
 CORS
 dotenv
 
-Deployment
+API & INTEGRATION :
 
+openWeather API
+resend API
+REST API
+
+Deployment:
 Frontend: (e.g., Netlify or Vercel, depending on where you host it)
 Backend: Render
+
 How it works
 The user enters a city name.
 The React frontend sends a request to the weather API.
