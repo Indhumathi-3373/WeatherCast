@@ -1,18 +1,48 @@
-# React + Vite
+WeatherCast
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+WeatherCast is a full-stack weather application that provides real-time weather information for any city using a weather API. It offers a clean and responsive user interface while integrating a backend service for handling user feedback via email.
 
-Currently, two official plugins are available:
+Features
+🌍 Search weather by city name
+🌡️ Display current temperature
+💧 Show humidity
+🌬️ Show wind speed
+☁️ Display weather condition and icon
+📱 Responsive React-based user interface
+📧 Feedback form that sends emails through the backend using the Resend API
+☁️ Backend deployed on Render
+Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Frontend
 
-## React Compiler
+React
+JavaScript
+CSS
+Axios
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+Backend
 
-Note: This will impact Vite dev & build performances.
+Node.js
+Express.js
+Resend API (Email Service)
+CORS
+dotenv
 
-## Expanding the ESLint configuration
+Deployment
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Frontend: (e.g., Netlify or Vercel, depending on where you host it)
+Backend: Render
+How it works
+The user enters a city name.
+The React frontend sends a request to the weather API.
+Weather data is displayed instantly.
+Users can submit feedback through a form.
+The backend receives the feedback and uses the Resend API to send it as an email to the project owner.
+What I learned from this project
+Building REST APIs with Express.js
+Connecting React with a Node.js backend
+Handling asynchronous API requests using Axios
+Managing environment variables securely with dotenv
+Deploying frontend and backend applications
+Sending emails using the Resend API
+Debugging deployment issues, including network restrictions and replacing SMTP-based email delivery with an API-based solution
